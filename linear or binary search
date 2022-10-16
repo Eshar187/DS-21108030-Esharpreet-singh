@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class ArrayReader{
+public:
+    vector<int> arr;
+    ArrayReader(vector<int> &arr){
+        this->arr = arr;
+    }
+    int get(int i){
+        return arr[i];
+    }
+};
+
+
+class Solution {
+public:
+    int search(ArrayReader& reader, int target){
+
+        int high = 1;
+        int low = 0;
+        while(reader.get(high) < target){
+            low = high;
+            high = high << 1; 
+        }
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int x = reader.get(mid); 
+            if (x == target)
+                return mid;
+            if (x > target){
+                high = mid - 1;
+            } else
+                low = mid + 1;
+        }
+        return -1;
+    }
+};
+
+
+int main(){
+    
+    Solution sol;
+    int n, target;
+
+    cout<<"Enter num. of elements in array:";
+    cin>>n;
+    cout<<"Enter num. we have to find in array:";
+    cin>>target;
+    
+    cout<<"Enter the elements of array separated by space \n";
+    vector<int> v(n);
+    for(int i =0; i<n; i++){
+        cin>>v[i];
+    }
+
+    ArrayReader reader(v); 
+    cout<<(sol.search(reader, target)); 
+}
